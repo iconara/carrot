@@ -39,6 +39,11 @@ module Carrot::AMQP
         Protocol::Basic::Ack.new(:delivery_tag => delivery_tag)
       )
     end
+    
+    def reject(options={})
+      options = options.merge(:delivery_tag => delivery_tag)
+      server.send_frame(Protocol::Basic::Reject.new(options))
+    end
 
     def publish(data, opts = {})
       exchange.publish(data, opts)
