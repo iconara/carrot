@@ -5,9 +5,9 @@ class Carrot
     VERSION_MINOR = 0
     PORT          = 5672
   end
-end
   
-$:.unshift File.expand_path(File.dirname(File.expand_path(__FILE__)))
+  class Error < StandardError; end
+end
 
 require 'carrot/amqp/spec'
 require 'carrot/amqp/buffer'
@@ -20,13 +20,14 @@ require 'carrot/amqp/protocol'
 
 class Carrot
   @logging = false
+  
   class << self
     attr_accessor :logging
   end
+  
   def self.logging?
     @logging
   end
-  class Error < StandardError; end
 
   def initialize(opts = {})
     @opts = opts
@@ -88,5 +89,4 @@ class Carrot
   def Carrot.method_missing(meth, *args, &blk)
     Carrot.default.__send__(meth, *args, &blk)
   end
-
 end
